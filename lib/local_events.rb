@@ -1,5 +1,4 @@
-require "local_events/version"
-
-module LocalEvents
-  # Your code goes here...
-end
+require_relative "./local_events/version"
+require_relative './local_events/event'
+require_relative './local_events/scraper'
+require_relative './local_events/cli'
