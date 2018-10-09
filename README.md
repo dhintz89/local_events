@@ -1,8 +1,6 @@
 # LocalEvents
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/local_events`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome to Local Events! This Ruby Gem is designed to request location details and, optionally, activity-type and list upcoming events nearby.
 
 ## Installation
 
@@ -22,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Write Usage Details Here (Need to populate this with real instructinos at end of develpment)
 
 ## Development
 
