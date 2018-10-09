@@ -1,5 +1,5 @@
 class LocalEvents::Scraper
-    @@activity_types = ["this", "is", "a", "test"]
+    @@activity_types = []
     
     
     
