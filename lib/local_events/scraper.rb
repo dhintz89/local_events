@@ -1,7 +1,22 @@
 class LocalEvents::Scraper
+  attr_accessor :location, :activity_type
   @@activity_types = []
     
-    
+# instance methods
+
+  # method to enter the parameters into web form fields
+  def search(location='Denver, CO', activity_type='All')
+    browser = Watir::Browser.new :chrome, "C:\WebDrivers\chromedriver.exe"
+    browser.goto "https://www.eventsnearhere.com/"
+    browser.text_field(id: 'inputString').set location
+    browser.select_list(id: 'landuse').select_value activity_type
+    browser.button(class: 'btn btn-warning').click
+    puts browser.url
+    browser.close
+  end
+  
+  
+  
     
 # class methods
   def self.get_page(url)
