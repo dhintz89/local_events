@@ -23,7 +23,7 @@ class LocalEvents::CLI
     index = gets.strip.to_i - 1
       #try making activity_type a hash {index: string}
     activity_type = LocalEvents::Scraper.activity_types[index]
-    # LocalEvents::Scraper.new(city, state, activity_type)
+    results_page = LocalEvents::Scraper.new("#{city}, #{state}", activity_type).search
   end
   
   def call_menu

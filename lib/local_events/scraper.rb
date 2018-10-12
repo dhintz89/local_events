@@ -2,17 +2,29 @@ class LocalEvents::Scraper
   attr_accessor :location, :activity_type
   @@activity_types = []
     
+  def initialize(location, activity_type)
+    @location = location
+    @activity_type = activity_type
+  end
+    
 # instance methods
 
-  # method to enter the parameters into web form fields
+# Search will enter the parameters into web form fields using Watir and return url for results
+# Watir doesn't work because Ruby can't find chromedriver file (might be due to Learn being remote IRB - not reading my hard drive)
   def search(location='Denver, CO', activity_type='All')
-    browser = Watir::Browser.new :chrome, "C:\WebDrivers\chromedriver.exe"
-    browser.goto "https://www.eventsnearhere.com/"
-    browser.text_field(id: 'inputString').set location
-    browser.select_list(id: 'landuse').select_value activity_type
-    browser.button(class: 'btn btn-warning').click
-    puts browser.url
-    browser.close
+    if location == 'Denver, CO'
+      "https://www.eventsnearhere.com/find-events/co/denver/All/All/events"
+    elsif location == 'Myrtle Beach, SC'
+      "https://www.eventsnearhere.com/find-events/sc/myrtle-beach/All/All/events?miles=70"
+    end
+  #   once I fix Watir
+    # browser = Watir::Browser.new :chrome
+    # browser.goto "https://www.eventsnearhere.com/"
+    # browser.text_field(id: 'inputString').set @location
+    # browser.select_list(id: 'landuse').select_value @activity_type
+    # browser.button(class: 'btn btn-warning').click
+    # puts browser.url
+    # browser.close
   end
   
   
