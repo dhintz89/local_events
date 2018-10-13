@@ -1,5 +1,5 @@
 class LocalEvents::Event
-  attr_accessor :name, :location, :start_date, :end_date, :description, :price, :link
+  attr_accessor :name, :location, :start_date, :end_date, :description, :page_link, :price, :address, :phone, :ext_link
   @@all = []
   
   def initialize(event_hash)
@@ -10,7 +10,9 @@ class LocalEvents::Event
   end
   
   
-#instance methods
+# instance methods
+  
+  # add_properties  - self contructor method to populate remaining info using hash from scraper
   
   
 # class methods
@@ -29,7 +31,7 @@ class LocalEvents::Event
     @@all
   end
 
-  def clear_all
+  def self.clear_all
     self.all.clear
   end
   

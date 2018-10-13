@@ -1,16 +1,18 @@
 class LocalEvents::CLI
   
-# UI Methods
+#----- UI Methods
 
   def call
     puts "welcome to Local Events"
     LocalEvents::Scraper.refresh_activity_types
-    call_menu
-    puts "Goodbye."
+    main_menu
+    puts
+    puts
+    puts "Thank You, Come Again!"
   end
 
 
-  def call_menu
+  def main_menu
     puts "---------------------------"
     puts <<~HEREDOC
       Please enter a command. You may type: 
@@ -26,26 +28,42 @@ class LocalEvents::CLI
     case menu_selection
     when "new search"
       LocalEvents::Event.create_events(LocalEvents::Scraper.get_results)
-      puts LocalEvents::Event.all.map {|i| i.name}
+      display_events
     when "list results"
-      puts "Function Coming Soon"
-      call_menu
+      if LocalEvents::Event.all == []
+        puts "No Events Found, type 'new search' to search or make another selection from the menu"
+        main_menu
+      else
+        display_events
+      end
     when "refresh activity types"
       LocalEvents::Scraper.refresh_activity_types
       puts "activity filters refreshed"
-      call_menu
+      main_menu
     when "help"
-      call_menu
+      main_menu
     else
       unless menu_selection == "exit"
         puts "Nice try! #{menu_selection} is not a valid entry, please select from the list."
-        call_menu
+        main_menu
       end
     end
   end
   
-  # Functionality Methods
+#----- Functionality Methods
   
+  def display_events
+    puts
+    puts "Here are your local upcoming events"
+    puts "Please select an event to learn more:"
+    puts
+    LocalEvents::Event.all.each.with_index(1) do |event,i| 
+      puts "#{i}. #{event.name}:"
+      puts "From #{event.start_date} Through #{event.end_date} | #{event.location}"
+      puts "----"
+    end
+    puts "**end of list, please make a selection above**"
+  end
   
   
   

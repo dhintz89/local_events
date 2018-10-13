@@ -1,7 +1,33 @@
 class LocalEvents::Scraper
   @@activity_types = []
 
-# Manages searching and returning list of results
+#----- Universal Methods
+  def self.get_page(url)
+    Nokogiri::HTML(open(url))
+  end
+  
+  
+#----- Methods to manage Activity Type List for Main Menu  
+
+  def self.activity_types
+    @@activity_types
+  end
+    
+  def self.display_activity_types
+    self.activity_types.each.with_index(1) do |type, i|
+      puts "#{i}: #{type}"
+    end
+  end
+    
+  def self.refresh_activity_types
+    @@activity_types.clear
+    landing_page = self.get_page("https://www.eventsnearhere.com/")
+    landing_page.css("div.event-copy-box div.form-group:nth-child(2) option[value]").each {|cat| @@activity_types << cat.text}
+    @@activity_types.shift
+  end
+  
+
+#----- Methods for searching and returning results for Event creation
   
   def self.collect_parameters
     puts "---------------------------"
@@ -54,29 +80,10 @@ class LocalEvents::Scraper
     end
     events_list
   end
-    
-# Universal    
-  def self.get_page(url)
-    Nokogiri::HTML(open(url))
-  end
-  
-  
-# Manages Activity Types List for Main Menu  
 
-  def self.activity_types
-    @@activity_types
-  end
-    
-  def self.display_activity_types
-    self.activity_types.each.with_index(1) do |type, i|
-      puts "#{i}: #{type}"
-    end
-  end
-    
-  def self.refresh_activity_types
-    @@activity_types.clear
-    landing_page = self.get_page("https://www.eventsnearhere.com/")
-    landing_page.css("div.event-copy-box div.form-group:nth-child(2) option[value]").each {|cat| @@activity_types << cat.text}
-  end
+#----- Methods for scraping individual event pages
+
+  # use event.page_link to navigate to site and pull remaining event info, return info as hash for event to self-construct
+
     
 end
