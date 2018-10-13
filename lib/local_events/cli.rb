@@ -23,7 +23,7 @@ class LocalEvents::CLI
     menu_selection = gets.strip.downcase
     case menu_selection
     when "new search"
-      collect_parameters
+      LocalEvents::Scraper.get_results
     when "list results"
       puts "Function Coming Soon"
       call_menu
@@ -44,21 +44,6 @@ class LocalEvents::CLI
   # Functionality Methods
   
   
-  def collect_parameters
-    puts "---------------------------"
-    puts "Please enter a city:"
-    city = gets.strip
-    puts "---------------------------"
-    puts "Please enter a state code (2 letter abbreviation):"
-    state = gets.strip
-    location = "#{city}, #{state}"
-    puts "---------------------------"
-    puts "Please select desired activity type:"
-    LocalEvents::Scraper.display_activity_types
-    index = gets.strip.to_i - 1
-    activity_type = LocalEvents::Scraper.activity_types[index]
-    list = LocalEvents::Scraper.get_results(location, activity_type)
-    puts list
-  end
+  
   
 end

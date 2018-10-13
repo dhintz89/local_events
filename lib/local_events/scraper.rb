@@ -1,17 +1,36 @@
 class LocalEvents::Scraper
-
   @@activity_types = []
+
+# Manages searching and returning list of results
+  
+  def self.collect_parameters
+    puts "---------------------------"
+    puts "Please enter a city:"
+    city = gets.strip
+    puts "---------------------------"
+    puts "Please enter a state code (2 letter abbreviation):"
+    state = gets.strip
+    location = "#{city}, #{state}"
+    puts "---------------------------"
+    puts "Please select desired activity type:"
+    display_activity_types
+    index = gets.strip.to_i - 1
+    activity_type = activity_types[index]
+    param = [location, activity_type]
+  end
   
   
+  def self.search(parameters)
+
 # Search will enter the parameters into web form fields using Watir and return url for results
 # Watir doesn't work because Ruby can't find chromedriver file (might be due to Learn being remote IRB - not reading my hard drive)
-  def self.search(location='Denver, CO', activity_type='All')
-    if location == 'Denver, CO'
+
+    if parameters[0] == 'Denver, CO'
       "https://www.eventsnearhere.com/find-events/co/denver/All/All/events"
-    elsif location == 'Myrtle Beach, SC'
+    elsif parameters[0] == 'Myrtle Beach, SC'
       "https://www.eventsnearhere.com/find-events/sc/myrtle-beach/All/All/events?miles=70"
     end
-  #   once I fix Watir
+  # comment back in once I fix Watir
     # browser = Watir::Browser.new :chrome
     # browser.goto "https://www.eventsnearhere.com/"
     # browser.text_field(id: 'inputString').set @location
@@ -21,11 +40,10 @@ class LocalEvents::Scraper
     # browser.close
   end
   
-  def self.get_results(location, activity_type)
+  def self.get_results
+    results_page = search(collect_parameters)
     events_list = []
-    results_page = self.search(location, activity_type)
-    search_page = get_page(results_page)
-    event_record = search_page.css("div.event_count.basic-event")
+    event_record = get_page(results_page).css("div.event_count.basic-event")
     event_record.each do |record|
       events_list << {
         :name => record.css("h2 a span[itemprop~='name']").text,
@@ -37,11 +55,14 @@ class LocalEvents::Scraper
     events_list
   end
     
-# class methods
+# Universal    
   def self.get_page(url)
     Nokogiri::HTML(open(url))
   end
   
+  
+# Manages Activity Types List for Main Menu  
+
   def self.activity_types
     @@activity_types
   end
@@ -56,7 +77,6 @@ class LocalEvents::Scraper
     @@activity_types.clear
     landing_page = self.get_page("https://www.eventsnearhere.com/")
     landing_page.css("div.event-copy-box div.form-group:nth-child(2) option[value]").each {|cat| @@activity_types << cat.text}
-    @@activity_types
   end
     
 end
