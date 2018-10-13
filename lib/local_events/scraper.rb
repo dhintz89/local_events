@@ -1,17 +1,11 @@
 class LocalEvents::Scraper
-  attr_accessor :location, :activity_type
-  @@activity_types = []
-    
-  def initialize(location, activity_type)
-    @location = location
-    @activity_type = activity_type
-  end
-    
-# instance methods
 
+  @@activity_types = []
+  
+  
 # Search will enter the parameters into web form fields using Watir and return url for results
 # Watir doesn't work because Ruby can't find chromedriver file (might be due to Learn being remote IRB - not reading my hard drive)
-  def search(location='Denver, CO', activity_type='All')
+  def self.search(location='Denver, CO', activity_type='All')
     if location == 'Denver, CO'
       "https://www.eventsnearhere.com/find-events/co/denver/All/All/events"
     elsif location == 'Myrtle Beach, SC'
@@ -27,8 +21,21 @@ class LocalEvents::Scraper
     # browser.close
   end
   
-  
-  
+  def self.get_results(location, activity_type)
+    events_list = []
+    results_page = self.search(location, activity_type)
+    search_page = get_page(results_page)
+    event_record = search_page.css("div.event_count.basic-event")
+    event_record.each do |record|
+      events_list << {
+        :name => record.css("h2 a span[itemprop~='name']").text,
+        :start_date => record.css("div.event-location em time[itemprop~='startDate']").text,
+        :end_date => record.css("div.event-location em time[itemprop~='endDate']").text,
+        :location => record.css("div.event-location span span[itemprop~='address']").text.strip
+      }
+    end
+    events_list
+  end
     
 # class methods
   def self.get_page(url)
