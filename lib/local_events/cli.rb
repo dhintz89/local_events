@@ -20,10 +20,13 @@ class LocalEvents::CLI
       'exit' to exit app.
       'help' to display this message again.
     HEREDOC
+    
     menu_selection = gets.strip.downcase
+    
     case menu_selection
     when "new search"
-      LocalEvents::Scraper.get_results
+      LocalEvents::Event.create_events(LocalEvents::Scraper.get_results)
+      puts LocalEvents::Event.all.map {|i| i.name}
     when "list results"
       puts "Function Coming Soon"
       call_menu
