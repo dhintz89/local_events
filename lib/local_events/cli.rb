@@ -28,13 +28,13 @@ class LocalEvents::CLI
     case menu_selection
     when "new search"
       LocalEvents::Event.create_events(LocalEvents::Scraper.get_results)
-      display_events
+      events_menu
     when "list results"
       if LocalEvents::Event.all == []
         puts "No Events Found, type 'new search' to search or make another selection from the menu"
         main_menu
       else
-        display_events
+        events_menu
       end
     when "refresh activity types"
       LocalEvents::Scraper.refresh_activity_types
@@ -52,17 +52,18 @@ class LocalEvents::CLI
   
 #----- Functionality Methods
   
-  def display_events
-    puts
-    puts "Here are your local upcoming events"
-    puts "Please select an event to learn more:"
-    puts
-    LocalEvents::Event.all.each.with_index(1) do |event,i| 
-      puts "#{i}. #{event.name}:"
-      puts "From #{event.start_date} Through #{event.end_date} | #{event.location}"
-      puts "----"
+  def events_menu
+    LocalEvents::Event.display_events
+    menu_selection = gets.strip.downcase
+    if menu_selection.to_i > 0 && menu_selection.to_i <= LocalEvents::Event.all.length
+      index = gets.strip.to_i - 1
+    else
+      puts "Not a valid selection. Please select an event by number to see more details."
+      events_menu
     end
-    puts "**end of list, please make a selection above**"
+    chosen_event = LocalEvents::Event.all[index]
+    chosen_event.add_properties({phone:12345, description:"abcde"})
+    chosen_event.display_full_event
   end
   
   
