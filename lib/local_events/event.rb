@@ -20,7 +20,8 @@ class LocalEvents::Event
   
   def display_full_event
     instance_variables.each do |prop|
-      puts prop.to_s.sub("@","") + ": #{@prop}"
+      puts "#{prop.to_s.sub("@","")}: "
+      puts "#{instance_variable_get(prop).intern}"
     end
   end
   

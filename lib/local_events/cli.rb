@@ -54,7 +54,7 @@ class LocalEvents::CLI
   
   def events_menu
     LocalEvents::Event.display_events
-    menu_selection = gets.strip.downcase
+    menu_selection = gets.strip
     if menu_selection.to_i > 0 && menu_selection.to_i <= LocalEvents::Event.all.length
       index = gets.strip.to_i - 1
     else
@@ -62,10 +62,8 @@ class LocalEvents::CLI
       events_menu
     end
     chosen_event = LocalEvents::Event.all[index]
-    chosen_event.add_properties({phone:12345, description:"abcde"})
+    chosen_event.add_properties(LocalEvents::Scraper.scrape_event_details(chosen_event.page_link))
     chosen_event.display_full_event
   end
-  
-  
   
 end

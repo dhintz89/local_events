@@ -76,7 +76,7 @@ class LocalEvents::Scraper
         :start_date => record.css("div.event-location em time[itemprop~='startDate']").text,
         :end_date => record.css("div.event-location em time[itemprop~='endDate']").text,
         :location => record.css("div.event-location span span[itemprop~='address']").text.strip,
-        :page_link => record.css("h2 a").attribute("href").value
+        :page_link => "https://www.eventsnearhere.com" + record.css("h2 a").attribute("href").value
       }
     end
     events_list
@@ -87,12 +87,14 @@ class LocalEvents::Scraper
   def self.scrape_event_details(page_link)
     page = get_page(page_link)
     event_details_hash = {
-      :contact_name => page.css("div#photocalholder div div.textleft")
-      :phone => 
-      :email =>
+      :contact_name => page.css("div#photocalholder div div.textleft").children[3].text,
+      :phone => page.css("div#photocalholder div div.textleft").children[8].text,
+      :email => page.css("div#photocalholder div div.textleft").children[14].text,
+      :ext_link => page.css("span[itemprop='description'] a").attribute("href").value,
+      :description => page.css("div#description_list_left span[itemprop='description'] p").text,
+      :address => page.css("div#description_list_left span.address_date span[itemprop='address']").text
     }
-  # use event.page_link to navigate to site and pull remaining event info, return info as hash for event to self-construct
-  
+    event_details_hash
   end
     
 end
