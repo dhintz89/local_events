@@ -74,10 +74,10 @@ class LocalEvents::Scraper
       event_record.each do |record|
         events_list << {
           :name => record.css("h2 a span[itemprop~='name']").text,
-          :start_date => record.css("div.event-location em time[itemprop~  ='startDate']").text,
-          :end_date => record.css("div.event-location em time[itemprop~  ='endDate']").text,
-          :location => record.css("div.event-location span span[itemprop~  ='address']").text.strip,
-          :page_link => "https://www.eventsnearhere.com" + record.css("h2 a"  ).attribute("href").value
+          :start_date => record.css("div.event-location em time[itemprop~='startDate']").text,
+          :end_date => record.css("div.event-location em time[itemprop~='endDate']").text,
+          :location => record.css("div.event-location span span[itemprop~='address']").text.strip,
+          :page_link => "https://www.eventsnearhere.com" + record.css("h2 a").attribute("href").value
         }
       end
     end
