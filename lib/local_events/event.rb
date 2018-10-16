@@ -1,5 +1,5 @@
 class LocalEvents::Event
-  attr_accessor :name, :location, :start_date, :end_date, :description, :page_link, :price, :address, :contact_name, :phone, :email, :ext_link
+  attr_accessor :name, :location, :start_date, :end_date, :description, :page_link, :price, :address, :contact_name, :phone, :email, :event_link
   @@all = []
   
   def initialize(event_hash)
@@ -19,10 +19,19 @@ class LocalEvents::Event
   end
   
   def display_full_event
+    puts
+    puts
+    puts "Here are the details for #{@name}..."
+    puts
     instance_variables.each do |prop|
-      puts "#{prop.to_s.sub("@","")}: "
-      puts "#{instance_variable_get(prop).intern}"
+      if prop != :@page_link && prop != :@location
+        puts "#{prop.to_s.sub("@","")}: "
+        puts "#{instance_variable_get(prop).intern}"
+        puts "----"
+      end
     end
+    puts "page_link:"
+    puts @page_link
   end
   
   
@@ -57,6 +66,8 @@ class LocalEvents::Event
       puts "----"
     end
     puts "**end of list, please make a selection above**"
+    puts "You may also enter 'main menu' to return to the main menu"
+    puts "Or you may enter 'exit' to exit the program"
   end
   
 end

@@ -87,13 +87,17 @@ class LocalEvents::Scraper
   def self.scrape_event_details(page_link)
     page = get_page(page_link)
     event_details_hash = {
-      :contact_name => page.css("div#photocalholder div div.textleft").children[3].text,
-      :phone => page.css("div#photocalholder div div.textleft").children[8].text,
-      :email => page.css("div#photocalholder div div.textleft").children[14].text,
-      :ext_link => page.css("span[itemprop='description'] a").attribute("href").value,
-      :description => page.css("div#description_list_left span[itemprop='description'] p").text,
-      :address => page.css("div#description_list_left span.address_date span[itemprop='address']").text
+      :address => page.css("div#description_list_left span.address_date span[itemprop='address']").text.strip,
+      :contact_name => page.css("div#photocalholder div div.textleft").children[3].text.strip,
+      :phone => page.css("div#photocalholder div div.textleft").children[8].text.strip,
+      :email => page.css("div#photocalholder div div.textleft").children[14].text.strip,
+      :description => page.css("div#description_list_left span[itemprop='description'] p").text.strip
     }
+    if page.css("span[itemprop='description'] a").text != ""
+      event_details_hash[:event_link] = page.css("span[itemprop='description'] a").attribute("href").value.strip
+    else
+      event_details_hash[:event_link] = "No event link posted."
+    end
     event_details_hash
   end
     

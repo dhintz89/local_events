@@ -3,12 +3,12 @@ class LocalEvents::CLI
 #----- UI Methods
 
   def call
-    puts "welcome to Local Events"
+    puts "Welcome to Local Events"
     LocalEvents::Scraper.refresh_activity_types
     main_menu
     puts
     puts
-    puts "Thank You, Come Again!"
+    puts "Thank you for using Local Events, Goodbye."
   end
 
 
@@ -55,15 +55,21 @@ class LocalEvents::CLI
   def events_menu
     LocalEvents::Event.display_events
     menu_selection = gets.strip
-    if menu_selection.to_i > 0 && menu_selection.to_i <= LocalEvents::Event.all.length
-      index = gets.strip.to_i - 1
+    if menu_selection.downcase == "main menu"
+      main_menu
+    elsif
+      menu_selection.to_i > 0 && menu_selection.to_i <= LocalEvents::Event.all.length
+      index = menu_selection.to_i - 1
+      chosen_event = LocalEvents::Event.all[index]
+      chosen_event.add_properties(LocalEvents::Scraper.scrape_event_details(chosen_event.page_link))
+      chosen_event.display_full_event
+      main_menu
     else
-      puts "Not a valid selection. Please select an event by number to see more details."
-      events_menu
+      unless menu_selection.downcase == "exit"
+        puts "Not a valid selection. Please select an event by number to see more details."
+        events_menu
+      end
     end
-    chosen_event = LocalEvents::Event.all[index]
-    chosen_event.add_properties(LocalEvents::Scraper.scrape_event_details(chosen_event.page_link))
-    chosen_event.display_full_event
   end
   
 end
