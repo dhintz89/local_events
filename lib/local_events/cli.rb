@@ -1,16 +1,17 @@
 class LocalEvents::CLI
   
-#----- UI Methods
+#----- Call Method to kick off program
 
   def call
-    puts "Welcome to Local Events"
+    puts "Welcome to Local Events".colorize(:light_magenta)
     LocalEvents::Scraper.refresh_activity_types
     main_menu
     puts
     puts
-    puts "Thank you for using Local Events, Goodbye."
+    puts "Thank you for using Local Events, Goodbye.".colorize(:light_magenta)
   end
 
+#----- Main Menu
 
   def main_menu
     puts "---------------------------"
@@ -28,11 +29,17 @@ class LocalEvents::CLI
     case menu_selection
     when "new search"
       LocalEvents::Event.create_events(LocalEvents::Scraper.get_results)
-      events_menu
+      if LocalEvents::Event.all == []
+        puts "No results found, please try a new search".colorize(:red)
+        puts "Back to main menu".colorize(:yellow)
+        main_menu
+      else  
+        events_menu
+      end
     when "list results"
       if LocalEvents::Event.all == []
         puts
-        puts "No Events Found, type 'new search' to search or make another selection from the menu"
+        puts "No Events Found, type 'new search' to search or make another selection from the menu".colorize(:red)
         main_menu
       else
         events_menu
@@ -40,20 +47,20 @@ class LocalEvents::CLI
     when "refresh activity types"
       LocalEvents::Scraper.refresh_activity_types
       puts
-      puts "activity filters refreshed"
+      puts "activity filters refreshed".colorize(:green)
       main_menu
     when "help"
       main_menu
     else
       unless menu_selection == "exit"
         puts
-        puts "Nice try! #{menu_selection} is not a valid entry, please select from the list."
+        puts "Nice try! #{menu_selection} is not a valid entry, please select from the list.".colorize(:red)
         main_menu
       end
     end
   end
   
-#----- Functionality Methods
+#----- Select Event Menu
   
   def events_menu
     LocalEvents::Event.display_events
@@ -70,7 +77,7 @@ class LocalEvents::CLI
     else
       unless menu_selection.downcase == "exit"
         puts
-        puts "#{menu_selection} is not a valid selection. Please select an event by number to see more details."
+        puts "#{menu_selection} is not a valid selection. Please select an event by number to see more details.".colorize(:red)
         events_menu
       end
     end

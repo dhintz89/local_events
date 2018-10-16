@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'watir-webdriver'
 require 'pry'
+require 'colorize'
 
 
 require_relative "./local_events/version"

@@ -31,14 +31,14 @@ class LocalEvents::Scraper
   
   def self.collect_parameters
     puts "---------------------------"
-    puts "Please enter a city:"
+    puts "Please enter a city:".colorize(:yellow)
     city = gets.strip
     puts "---------------------------"
-    puts "Please enter a state code (2 letter abbreviation):"
+    puts "Please enter a state code (2 letter abbreviation):".colorize(:yellow)
     state = gets.strip
     location = "#{city}, #{state}"
     puts "---------------------------"
-    puts "Please select desired activity type:"
+    puts "Please select desired activity type:".colorize(:yellow)
     display_activity_types
     index = gets.strip.to_i - 1
     activity_type = activity_types[index]
@@ -69,15 +69,17 @@ class LocalEvents::Scraper
   def self.get_results
     results_page = search(collect_parameters)
     events_list = []
-    event_record = get_page(results_page).css("div.event_count.basic-event")
-    event_record.each do |record|
-      events_list << {
-        :name => record.css("h2 a span[itemprop~='name']").text,
-        :start_date => record.css("div.event-location em time[itemprop~='startDate']").text,
-        :end_date => record.css("div.event-location em time[itemprop~='endDate']").text,
-        :location => record.css("div.event-location span span[itemprop~='address']").text.strip,
-        :page_link => "https://www.eventsnearhere.com" + record.css("h2 a").attribute("href").value
-      }
+    unless results_page == nil
+      event_record = get_page(results_page).css("div.event_count.basic-event")
+      event_record.each do |record|
+        events_list << {
+          :name => record.css("h2 a span[itemprop~='name']").text,
+          :start_date => record.css("div.event-location em time[itemprop~  ='startDate']").text,
+          :end_date => record.css("div.event-location em time[itemprop~  ='endDate']").text,
+          :location => record.css("div.event-location span span[itemprop~  ='address']").text.strip,
+          :page_link => "https://www.eventsnearhere.com" + record.css("h2 a"  ).attribute("href").value
+        }
+      end
     end
     events_list
   end
