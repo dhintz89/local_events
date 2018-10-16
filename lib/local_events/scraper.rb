@@ -84,7 +84,7 @@ class LocalEvents::Scraper
     events_list
   end
 
-#----- Methods for scraping individual event pages
+#----- Method for scraping individual event page for details
 
   def self.scrape_event_details(page_link)
     page = get_page(page_link)
