@@ -38,6 +38,7 @@ class LocalEvents::Event
 # class methods
   
   def self.create_events(events_list)
+    self.clear_all
     events_list.each do |event_hash|
       self.new(event_hash)
     end

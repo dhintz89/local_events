@@ -31,6 +31,7 @@ class LocalEvents::CLI
       events_menu
     when "list results"
       if LocalEvents::Event.all == []
+        puts
         puts "No Events Found, type 'new search' to search or make another selection from the menu"
         main_menu
       else
@@ -38,12 +39,14 @@ class LocalEvents::CLI
       end
     when "refresh activity types"
       LocalEvents::Scraper.refresh_activity_types
+      puts
       puts "activity filters refreshed"
       main_menu
     when "help"
       main_menu
     else
       unless menu_selection == "exit"
+        puts
         puts "Nice try! #{menu_selection} is not a valid entry, please select from the list."
         main_menu
       end
@@ -66,7 +69,8 @@ class LocalEvents::CLI
       main_menu
     else
       unless menu_selection.downcase == "exit"
-        puts "Not a valid selection. Please select an event by number to see more details."
+        puts
+        puts "#{menu_selection} is not a valid selection. Please select an event by number to see more details."
         events_menu
       end
     end
