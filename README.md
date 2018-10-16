@@ -1,6 +1,6 @@
 # LocalEvents
 
-Welcome to Local Events! This Ruby Gem is designed to request location details and, optionally, activity-type and list upcoming events nearby.
+Welcome to Local Events! This Ruby Gem will request location details and an optional activity type filter from the user.  Once submitted, the LocalEvents will search "eventsnearhere.com" and list upcoming events nearby.  The user can then select an event to see it's details.
 
 ## Installation
 
@@ -20,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-Write Usage Details Here (Need to populate this with real instructinos at end of develpment)
+To use LocalEvents, simply run the CLI and it will bring you to the main menu where you may enter one of several commands. To utilize it for it's intended purpose, follow these instructions: 
+ 1. Select 'new search' to begin.
+ 2. The app will ask you to enter a City and a State Code as well as provide you a list of activity type filters that you may select from.
+ 3. Once these details are entered, the gem will use the data to search the website and return to you a list of events, their location, and their dates.
+ 4. You may then select an event to get the event's address, contact info, description, and a link to the event's webpage.
+ 5. Once complete, you may enter 'list results' to go back to the event list, or 'new search' to enter new criteria.
 
 ## Development
 
