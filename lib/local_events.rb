@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'open-uri'
-require 'watir-webdriver'
 require 'pry'
 require 'colorize'
 

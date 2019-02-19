@@ -4,7 +4,6 @@ PATH
     local_events (0.1.0)
       colorize
       nokogiri
-      watir-webdriver
 
 GEM
   remote: https://rubygems.org/
@@ -37,11 +36,6 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     rubyzip (1.2.2)
-    selenium-webdriver (3.14.1)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.2, >= 1.2.2)
-    watir-webdriver (0.9.9)
-      selenium-webdriver (>= 2.46.2)
 
 PLATFORMS
   ruby

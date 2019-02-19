@@ -41,7 +41,7 @@ class LocalEvents::Scraper
     puts "Please select desired activity type:".colorize(:yellow)
     display_activity_types
     index = gets.strip.to_i - 1
-    activity_type = activity_types[index]
+    activity_type = activity_types[index].gsub ' ', '-'
     param = [city, state, activity_type]
   end
   
