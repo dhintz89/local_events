@@ -21,24 +21,6 @@ class LocalEvents::Event
     end
   end
   
-  # Uses instance with added details to create Details View for selected event instance
-  def display_full_event
-    puts
-    puts
-    puts "Here are the details for #{@name}...".colorize(:yellow)
-    puts
-    instance_variables.each do |prop|
-      if prop != :@page_link && prop != :@location
-        puts "#{prop.to_s.sub("@","")}: "
-        puts "#{instance_variable_get(prop).intern}"
-        puts "----"
-      end
-    end
-    puts "page_link:"
-    puts @page_link
-  end
-  
-  
 # class methods
   
   def self.all

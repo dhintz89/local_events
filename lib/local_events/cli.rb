@@ -105,7 +105,23 @@ class LocalEvents::CLI
       index = menu_selection.to_i - 1
       chosen_event = LocalEvents::Event.all[index]
       chosen_event.add_properties(LocalEvents::Scraper.scrape_event_details(chosen_event.page_link))
-      chosen_event.display_full_event
+
+  # Displays Details View for selected event instance
+    puts
+    puts
+    binding.pry
+    puts "Here are the details for #{chosen_event.name}...".colorize(:yellow)
+    puts
+    chosen_event.instance_variables.each do |prop|
+      if prop != :@page_link && prop != :@location
+        puts "#{prop.to_s.sub("@","")}: "
+        puts "#{chosen_event.instance_variable_get(prop).intern}"
+        puts "----"
+      end
+    end
+    puts "page_link:"
+    puts chosen_event.page_link
+
       main_menu
       
     #--- Exit App or Error Message
