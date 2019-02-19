@@ -1,13 +1,14 @@
 class LocalEvents::Scraper
   @@activity_types = []
 
-#----- Universal Methods
+# Universal Methods
+
   def self.get_page(url)
     Nokogiri::HTML(open(url))
   end
   
   
-#----- Methods to manage Activity Type List for Main Menu  
+  # Methods to manage Activity Type List for Main Menu  
 
   def self.activity_types
     @@activity_types
@@ -27,7 +28,7 @@ class LocalEvents::Scraper
   end
   
 
-#----- Methods for searching and returning results for Event creation
+  # Methods for searching and returning results for Event creation
   
   def self.collect_parameters
     puts "---------------------------"
@@ -36,34 +37,18 @@ class LocalEvents::Scraper
     puts "---------------------------"
     puts "Please enter a state code (2 letter abbreviation):".colorize(:yellow)
     state = gets.strip
-    location = "#{city}, #{state}"
     puts "---------------------------"
     puts "Please select desired activity type:".colorize(:yellow)
     display_activity_types
     index = gets.strip.to_i - 1
     activity_type = activity_types[index]
-    param = [location, activity_type]
+    param = [city, state, activity_type]
   end
   
   
+  # Search will interpolate the parameters into web url
   def self.search(parameters)
-
-# Search will enter the parameters into web form fields using Watir and return url for results
-# Watir doesn't work because Ruby can't find chromedriver file (might be due to Learn being remote IRB - not reading my hard drive)
-
-    if parameters[0] == 'Denver, CO'
-      "https://www.eventsnearhere.com/find-events/co/denver/All/All/events"
-    elsif parameters[0] == 'Myrtle Beach, SC'
-      "https://www.eventsnearhere.com/find-events/sc/myrtle-beach/All/All/events?miles=70"
-    end
-  # comment back in once I fix Watir
-    # browser = Watir::Browser.new :chrome
-    # browser.goto "https://www.eventsnearhere.com/"
-    # browser.text_field(id: 'inputString').set @location
-    # browser.select_list(id: 'landuse').select_value @activity_type
-    # browser.button(class: 'btn btn-warning').click
-    # puts browser.url
-    # browser.close
+    "https://www.eventsnearhere.com/find-events/#{parameters[1]}/#{parameters[0]}/#{parameters[2]}/All/events"
   end
   
   def self.get_results
@@ -84,7 +69,7 @@ class LocalEvents::Scraper
     events_list
   end
 
-#----- Method for scraping individual event page for details
+  # Method for scraping individual event page for details
 
   def self.scrape_event_details(page_link)
     page = get_page(page_link)

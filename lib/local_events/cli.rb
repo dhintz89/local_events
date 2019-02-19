@@ -1,6 +1,6 @@
 class LocalEvents::CLI
   
-#----- Call Method to kick off program
+  # Call Method to kick off program
 
   def call
     puts "Welcome to Local Events".colorize(:light_magenta)
@@ -16,7 +16,7 @@ class LocalEvents::CLI
 #----- Main Menu
 
   def main_menu
-#--- Initial Menu Instructions
+    #--- Initial Menu Instructions
     puts "---------------------------"
     puts <<~HEREDOC
       Please enter a command. You may type: 
@@ -29,10 +29,10 @@ class LocalEvents::CLI
     
     menu_selection = gets.strip.downcase
   
-#--- Control flow to based on user input
+    #--- Control flow to based on user input
     case menu_selection
     
-  #---- launches searching methods
+    #--- launches searching methods
     when "new search"
       LocalEvents::Event.create_events(LocalEvents::Scraper.get_results)
       if LocalEvents::Event.all == []
@@ -43,7 +43,7 @@ class LocalEvents::CLI
         events_menu
       end
       
-  #---- returns values from last search
+    #--- returns values from last search
     when "list results"
       if LocalEvents::Event.all == []
         puts
@@ -53,18 +53,18 @@ class LocalEvents::CLI
         events_menu
       end
       
-  #---- Re-scrapes list values for activity types
+    #--- Re-scrapes list values for activity types
     when "refresh activity types"
       LocalEvents::Scraper.refresh_activity_types
       puts
       puts "activity filters refreshed".colorize(:green)
       main_menu
       
-  #---- Displays menu instructions again (not really needed)
+    #--- Displays menu instructions again (not really needed)
     when "help"
       main_menu
       
-  #---- Exit or Error Message
+    #--- Exit or Error Message
     else
       unless menu_selection == "exit"
         puts
@@ -80,15 +80,15 @@ class LocalEvents::CLI
   
   def events_menu
     
-#--- Displays results from search and accepts input to guide control flow
+    #--- Displays results from search and accepts input to guide control flow
     LocalEvents::Event.display_events
     menu_selection = gets.strip
     
-  #---- Returns to Main Menu
+    #--- Returns to Main Menu
     if menu_selection.downcase == "main menu"
       main_menu
       
-  #---- Allows user to choose event and opens Details View
+    #--- Allows user to choose event and opens Details View
     elsif
       menu_selection.to_i > 0 && menu_selection.to_i <= LocalEvents::Event.all.length
       index = menu_selection.to_i - 1
@@ -97,7 +97,7 @@ class LocalEvents::CLI
       chosen_event.display_full_event
       main_menu
       
-  #---- Exit App or Error Message
+    #--- Exit App or Error Message
     else
       unless menu_selection.downcase == "exit"
         puts
