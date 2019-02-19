@@ -109,7 +109,6 @@ class LocalEvents::CLI
   # Displays Details View for selected event instance
     puts
     puts
-    binding.pry
     puts "Here are the details for #{chosen_event.name}...".colorize(:yellow)
     puts
     chosen_event.instance_variables.each do |prop|

@@ -29,8 +29,8 @@ class LocalEvents::Scraper
   
 
   # Methods for searching and returning results for Event creation
-  
-  def self.collect_parameters
+  # Search will interpolate the parameters into web url
+  def self.search
     puts "---------------------------"
     puts "Please enter a city:".colorize(:yellow)
     city = gets.strip.gsub ' ', '-'
@@ -42,17 +42,11 @@ class LocalEvents::Scraper
     display_activity_types
     index = gets.strip.to_i - 1
     activity_type = activity_types[index].gsub ' ', '-'
-    param = [city, state, activity_type]
-  end
-  
-  
-  # Search will interpolate the parameters into web url
-  def self.search(parameters)
-    "https://www.eventsnearhere.com/find-events/#{parameters[1]}/#{parameters[0]}/#{parameters[2]}/All/events"
+    "https://www.eventsnearhere.com/find-events/#{state}/#{city}/#{activity_type}/All/events"
   end
   
   def self.get_results
-    results_page = search(collect_parameters)
+    results_page = search
     events_list = []
     unless results_page == nil
       event_record = get_page(results_page).css("div.event_count.basic-event")
