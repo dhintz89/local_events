@@ -75,13 +75,24 @@ class LocalEvents::CLI
   end
   
   
-  
 #----- Select Event Menu
-  
+#--- Displays results from search and accepts input to guide control flow  
   def events_menu
     
-    #--- Displays results from search and accepts input to guide control flow
-    LocalEvents::Event.display_events
+    # Displays event instances created from above method
+    puts
+    puts "Here are your local upcoming events".colorize(:yellow)
+    puts "Please select an event to learn more:".colorize(:yellow)
+    puts
+    LocalEvents::Event.all.each.with_index(1) do |event,i| 
+      puts "#{i}. #{event.name}:"
+      puts "From #{event.start_date} Through #{event.end_date} | #{event.location}"
+      puts "----"
+    end
+    puts "**end of list, please make a selection above**".colorize(:yellow)
+    puts "You may also enter 'main menu' to return to the main menu"  .colorize(:yellow)
+    puts "Or you may enter 'exit' to exit the program".colorize(:yellow)
+
     menu_selection = gets.strip
     
     #--- Returns to Main Menu

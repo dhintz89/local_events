@@ -33,7 +33,7 @@ class LocalEvents::Scraper
   def self.collect_parameters
     puts "---------------------------"
     puts "Please enter a city:".colorize(:yellow)
-    city = gets.strip
+    city = gets.strip.gsub ' ', '-'
     puts "---------------------------"
     puts "Please enter a state code (2 letter abbreviation):".colorize(:yellow)
     state = gets.strip
